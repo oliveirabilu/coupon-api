@@ -72,7 +72,7 @@ public class Coupon {
         this.deleted = deleted;
     }
     public void normalizeCode() {
-        if (this.code==null){
+        if (this.code == null){
             throw new IllegalArgumentException("Código é obrigatório");
         }
         this.code = this.code.trim();
@@ -85,7 +85,7 @@ public class Coupon {
     }
 
     public void validateDiscount() {
-        if (this.discountValue==null){
+        if (this.discountValue == null){
             throw  new IllegalArgumentException("Desconto é obrigatório");
         }
 
@@ -94,7 +94,7 @@ public class Coupon {
         }
     }
     public void validateExpiration() {
-        if (this.expirationDate==null){
+        if (this.expirationDate == null){
             throw new IllegalArgumentException("Data de expiração é obrigatória");
         }
         if (this.expirationDate.isBefore(LocalDate.now())) {
