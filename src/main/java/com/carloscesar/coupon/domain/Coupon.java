@@ -106,4 +106,10 @@ public class Coupon {
         validateDiscount();
         validateExpiration();
     }
+    public void delete() {
+        if (this.deleted) {
+            throw new IllegalArgumentException("Cupom já foi deletado");
+        }
+        this.deleted = true;
+    }
 }
