@@ -72,19 +72,33 @@ public class Coupon {
         this.deleted = deleted;
     }
     public void normalizeCode() {
+        if (this.code==null){
+            throw new IllegalArgumentException("Código é obrigatório");
+        }
+        this.code = this.code.trim();
         this.code = this.code.replaceAll("[^a-zA-Z0-9]", "");
+        this.code = this.code.toUpperCase();
+
         if (this.code.length() != 6) {
-            throw new IllegalArgumentException("Código deve ter 6 caracteres");
+            throw new IllegalArgumentException("Código deve ter 6 caracteres alfanuméricos");
         }
     }
+
     public void validateDiscount() {
+        if (this.discountValue==null){
+            throw  new IllegalArgumentException("Desconto é obrigatório");
+        }
+
         if (this.discountValue.compareTo(BigDecimal.valueOf(0.5)) < 0) {
             throw new IllegalArgumentException("Desconto mínimo é 0.5");
         }
     }
     public void validateExpiration() {
+        if (this.expirationDate==null){
+            throw new IllegalArgumentException("Data de expiração é obrigatória");
+        }
         if (this.expirationDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Data inválida");
+            throw new IllegalArgumentException("Data de expiração não pode ser no passado");
         }
     }
     public void validate() {
