@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Future;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -69,5 +70,26 @@ public class Coupon {
     }
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+    public void normalizeCode() {
+        this.code = this.code.replaceAll("[^a-zA-Z0-9]", "");
+        if (this.code.length() != 6) {
+            throw new IllegalArgumentException("Código deve ter 6 caracteres");
+        }
+    }
+    public void validateDiscount() {
+        if (this.discountValue.compareTo(BigDecimal.valueOf(0.5)) < 0) {
+            throw new IllegalArgumentException("Desconto mínimo é 0.5");
+        }
+    }
+    public void validateExpiration() {
+        if (this.expirationDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Data inválida");
+        }
+    }
+    public void validate() {
+        normalizeCode();
+        validateDiscount();
+        validateExpiration();
     }
 }
